@@ -1,0 +1,52 @@
+ion-content {
+  //--background: linear-gradient(90deg, rgba(43,90,148,1) 0%, rgba(45,112,229,1) 35%, rgba(45,112,229,1) 100%);
+ 
+    ion-item {
+    // --background: rgb(120, 126, 134);
+      padding: 0;
+     // margin: 14px 0;
+      --border-radius: 14px;
+     // color: #FFFFFF;
+      //font-weight: 600;
+ }
+}
+::ng-deep .field-customization {
+  min-height: 32px;
+}
+::ng-deep .dx-lookup.field-customization .dx-lookup-field {
+  padding: 0 5px;
+}
+::ng-deep .custom-field > img {
+  vertical-align: middle;
+  height: 30px;
+  width: 21px;
+}
+::ng-deep .custom-field > div {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 30px;
+  font-size: 14px;
+  margin-left: 5px;
+}
+::ng-deep .custom-item > img {
+  height: 48px;
+  width: 38px;
+  margin-right: 10px;
+}
+::ng-deep .custom-item > div {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 48px;
+  font-size: 15px;
+}
+::ng-deep .dx-viewport:not(.dx-theme-ios7) .dx-fieldset {
+  width: 40%;
+  float: left;
+}
+::ng-deep .dx-field > .dx-lookup {
+  flex: 1;
+}
+.table {
+  border-radius: 6px;
+  background-color: #e9ecef;
+}

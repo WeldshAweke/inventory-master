@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <div>
+      <ion-item lines="none">
+        <ion-button (click)="reset()">Reset</ion-button>
+        <ion-label style="text-align: center;">List filter</ion-label>
+        <ion-button (click)="apply()">Apply</ion-button>
+      </ion-item>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="regform">
+    <ion-item>
+      <ion-label position="floating">Vendor Name</ion-label>
+      <ion-input formControlName="vendorName" type="text"></ion-input>
+      <small class="form-text text-muted" *ngIf="!regform.get('vendorName').valid && regform.get('vendorName').touched" > This field is required! </small> 
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Address</ion-label>
+      <ion-input formControlName="address" type="text"></ion-input>
+      <small class="form-text text-muted" *ngIf="!regform.get('address').valid && regform.get('address').touched" > This field is required! </small> 
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" ngModel [email]="true" formControlName="email" ></ion-input>
+      <small class="form-text text-muted" *ngIf="!regform.get('email').valid && regform.get('email').touched" > This field is required! </small> 
+    </ion-item> 
+    <ion-item>
+      <ion-label position="floating">Website</ion-label>
+      <ion-input formControlName="website"></ion-input>
+    </ion-item>
+   </form>
+</ion-content>

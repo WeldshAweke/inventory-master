@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary" >
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>import data</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="labelInfo">
+    <ion-label>If your spreadsheet is not in CSV format yet, you can use Microsoft Excel or Google Sheets and save it as a CSV</ion-label>
+  </div>
+  
+<form [formGroup]="regform" >
+  <ion-item hidden>
+    <ion-datetime  displayFormat="MMM DD, YYYY HH:mm:ss" formControlName="date" [min]="minDate" [max]="maxDate" [(ngModel)]="currentDate"></ion-datetime>
+   </ion-item>
+<ion-item>
+  <ion-label>Data type</ion-label>
+  <ion-select formControlName="dataType" interface="popover">
+    <ion-select-option  value="items" selected>items</ion-select-option>
+    <ion-select-option value="customer">customers</ion-select-option>
+  </ion-select>
+</ion-item>
+<ion-item lines="full">
+  <ion-label>File</ion-label>
+  <input formControlName="file" type="file" id="file-button-id" (change)="onFileChange($event)">
+</ion-item> 
+<!-- <ion-item>
+  <ion-label>File</ion-label>
+  <input formControlName="file"  type="file" (change)="onFileChangeToJson($event)" />
+ </ion-item> -->
+<!-- <div style="text-align: center; margin: auto;">
+  <ion-button id="add items" (click)="Canel()" > 
+    <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+    Cancel</ion-button>
+</div> -->
+<div style="text-align: center; margin: auto;">
+  <ion-button id="add items" (click)="Save()" > 
+    <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+    Next</ion-button>
+</div>
+</form>
+</ion-content>

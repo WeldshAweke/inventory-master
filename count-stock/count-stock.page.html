@@ -1,0 +1,79 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Count Stock</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="regform">
+  <ion-item lines="full">
+    <ion-label>Item</ion-label>
+    <div>
+      <dx-lookup [items]="listofItems" [searchExpr]="['name']" valueExpr="id" [displayExpr]="getDisplayExpr"
+      (onValueChanged)="valueChangeItem($event)"
+        placeholder="Select Location" formControlName="item" itemTemplate="listofItems">
+        <dxo-drop-down-options title="Select Items"></dxo-drop-down-options>
+       <div *dxTemplate="let item of 'listofItems'">
+          <div class="custom-item">
+            <img src="{{item.picture}}" />
+            <div style=" white-space: nowrap;overflow: hidden; text-overflow: ellipsis;">
+              {{item.name}}{{item.AmaricName}}  </div>
+              
+          </div>
+        </div>
+      </dx-lookup>
+      <small class="form-text text-muted" *ngIf="!regform.get('item').valid &&
+      regform.get('item').touched "> This field is required!</small>
+    </div>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label>Location</ion-label>
+    <div>
+      <dx-lookup [items]="listOfLookup" [searchExpr]="['name']" valueExpr="id" [displayExpr]="getDisplayExpr"
+      (onValueChanged)="valueChangeStore($event)"
+        placeholder="Select Location" formControlName="location" itemTemplate="listOfLookup">
+        <dxo-drop-down-options title="Select Location"></dxo-drop-down-options>
+        <div *dxTemplate="let item of 'listOfLookup'">
+          <div class="custom-item">
+            <div>{{item.name}} </div>
+          </div>
+        </div>
+      </dx-lookup>
+      <small class="form-text text-muted" *ngIf="!regform.get('location').valid &&
+      regform.get('location').touched "> This field is required!</small>
+    </div>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label>Catagory</ion-label>
+    <div>
+      <dx-lookup [items]="listOfCatagory" [searchExpr]="['categoryName','description']" valueExpr="id" [displayExpr]="getDisplayCatagory"
+      (onValueChanged)="valueChangeCatagory($event)"
+        placeholder="Select Location" formControlName="catagory" itemTemplate="listOfCatagory">
+        <dxo-drop-down-options title="Select Catagory"></dxo-drop-down-options>
+        <div *dxTemplate="let item of 'listOfCatagory'">
+          <div class="custom-item">
+            <div>{{item.categoryName}} </div>
+          </div>
+        </div>
+      </dx-lookup>
+      <small class="form-text text-muted" *ngIf="!regform.get('catagory').valid &&
+      regform.get('catagory').touched "> This field is required!</small>
+    </div>
+  </ion-item>
+
+</form>
+<ion-list>
+<dx-data-grid [dataSource]="listOfCountStock" [allowColumnReordering]="true" [columnAutoWidth]="true"
+    [showBorders]="true" [rowAlternationEnabled]="true" [showRowLines]="true">
+    <dxi-column dataField="item" [fixed]="true"></dxi-column>
+    <dxi-column dataField="Amharic_Name" ></dxi-column>
+    <dxi-column dataField="Catagory"></dxi-column>
+    <dxi-column dataField="Location" ></dxi-column>
+    <dxi-column dataField="Quantity" ></dxi-column>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+  </dx-data-grid>
+</ion-list>
+</ion-content>

@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Import {{type}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content >
+  <form [formGroup]="regform" >
+    <ion-item> 
+      <ion-label>Full Name</ion-label>
+          <ion-select interface="popover" formControlName="fullname">
+            <ion-select-option *ngFor="let code of this.importData;index as i" value="{{code}}">
+              {{code}}{{i}}
+            </ion-select-option>
+          </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Phone number</ion-label>
+          <ion-select interface="popover" formControlName="phonenumber">
+            <ion-select-option *ngFor="let code of this.importData" value="{{code}}">
+              {{code}}
+            </ion-select-option>
+          </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Location</ion-label>
+          <ion-select interface="popover" formControlName="location">
+            <ion-select-option *ngFor="let code of this.importData" value="{{code}}">
+              {{code}}
+            </ion-select-option>
+          </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Balance</ion-label>
+          <ion-select interface="popover" formControlName="balance">
+            <ion-select-option *ngFor="let code of this.importData" value="{{code}}">
+              {{code}}
+            </ion-select-option>
+          </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Address</ion-label>
+          <ion-select interface="popover" formControlName="address">
+            <ion-select-option *ngFor="let code of this.importData" value="{{code}}">
+              {{code}}
+            </ion-select-option>
+          </ion-select>
+    </ion-item>
+  </form>
+<ion-content  scrollX="true" scrollY="true">
+    <table border="1" class="data-table">
+      <tr>
+        <td *ngFor="let header of importData" text-center><b>{{ header }}</b></td>
+      </tr>
+       <tr *ngFor="let row of dataList; let i = index">
+       <td>{{row.id}}</td>
+        <td><ion-input type="text" [(ngModel)]="row.fullname"></ion-input></td>
+        <td>{{row.phonenumber}}</td>
+        <td>{{row.location}}</td>
+        <td>{{row.balance}}</td>
+        <td>{{row.address}}</td>
+        
+      </tr> 
+    </table>
+  </ion-content>
+</ion-content>

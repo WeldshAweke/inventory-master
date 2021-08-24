@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Recieve payment</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="regform">
+    <ion-item lines="full">
+      <ion-label> Select Customer</ion-label>
+      <div class="dx-field">
+        <dx-lookup [items]="listOfCustomer" [searchExpr]="['id','fullname','contact', 'phonenumber','address']"
+          valueExpr="id" [displayExpr]="getDisplayExpr" placeholder="Select Items" formControlName="customer"
+          (onValueChanged)="SelectedValue($event)" itemTemplate="listOfCustomer" [(ngModel)]="defaultSelectedCurrency">
+          <dxo-drop-down-options title="Select Customers"></dxo-drop-down-options>
+          <div *dxTemplate="let item of 'listOfCustomer'">
+            <div class="custom-item">
+              <div>{{item.fullname }} {{item.phonenumber }}</div>
+            </div>
+          </div>
+        </dx-lookup>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label>Balance </ion-label>
+      <ion-input [(ngModel)]="updateBalance" formControlName="updateBalance" value="{{updateBalance}}" readonly>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Payment </ion-label>
+      <ion-input type="number" [(ngModel)]="payment" formControlName="payment" aria-placeholder="Enter payment"
+        (keyup)="onKey()"></ion-input>
+      <small class="form-text text-muted" *ngIf="!regform.get('payment').valid && regform.get('payment').touched">
+        This field is required!
+      </small>
+    </ion-item>
+    <div style="text-align: center; margin: auto">
+      <ion-button id="add items" (click)="reCalculateBalance()" [disabled]="!regform.valid">
+        <ion-icon slot="start" name="add-circle-outline"></ion-icon>Calculate
+        Balance
+      </ion-button>
+    </div>
+    <div>
+      <dx-button text="Clear Selection" [disabled]="!selectedRows?.length" (onClick)="grid.instance.clearSelection()">
+      </dx-button>
+      <dx-data-grid #grid id="grid-container" [dataSource]="listOfVoucher" [showRowLines]="true" [showBorders]="true"
+        [remoteOperations]="true" [columnAutoWidth]="true" [showBorders]="true" [showRowLines]="true" keyExpr="id"
+        [(selectedRowKeys)]="selectedRows" (onSelectionChanged)="selectionChangedRow($event)"
+        (onSelectionChanged)="selectionChangedHandler($event)" [showBorders]="true">
+        <dxo-selection [selectAllMode]="allMode" [showCheckBoxesMode]="checkBoxesMode" mode="multiple"></dxo-selection>
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxi-column dataField="vocherId" caption="vocherId" [width]="90"></dxi-column>
+        <dxi-column dataField="date" height="80%" width="100px"></dxi-column>
+        <dxi-column dataField="grandTotal" [width]="80"></dxi-column>
+        <dxi-column dataField="subTotal" [width]="80"></dxi-column>
+      </dx-data-grid>
+      <ion-item>
+        <ion-label>Remining</ion-label>
+        {{remaining}}
+      </ion-item>
+      <ion-item>
+        <ion-label>Total Paid</ion-label>
+        {{PaidBalance}}
+      </ion-item>
+      <ion-button [disabled]="this.payment>=1" expand="block" (click)="payAllBalance()">Pay Balance</ion-button>
+    </div>
+  </form>
+</ion-content>

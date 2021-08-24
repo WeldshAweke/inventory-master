@@ -1,0 +1,103 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Add Stock</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="regform">
+    <ion-item lines="full">
+      <ion-label>Location</ion-label>
+      <div>
+        <dx-lookup [items]="listOfLookup" [searchExpr]="['name']" valueExpr="id" [displayExpr]="getDisplayExpr"
+          placeholder="Select Location" formControlName="location" itemTemplate="listOfLookup">
+          <dxo-drop-down-options title="Select Location"></dxo-drop-down-options>
+          <div *dxTemplate="let item of 'listOfLookup'">
+            <div class="custom-item">
+              <div>{{item.name}} </div>
+            </div>
+          </div>
+        </dx-lookup>
+        <small class="form-text text-muted" *ngIf="!regform.get('location').valid && 
+        regform.get('location').touched "> This field is required!</small>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label>Adjustment No</ion-label>
+      <ion-input formControlName="addStockNo" [(ngModel)]="this.AddStockNo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label> Date:</ion-label>
+      <ion-datetime displayFormat="MMM DD, YYYY HH:mm:ss" formControlName="date" [min]="minDate" [max]="maxDate"
+      placeholder="enter start date"
+        [(ngModel)]="currentDate"></ion-datetime>
+     </ion-item>
+    <ion-item style="height: 68px;" lines="full">
+      <ion-label>Add Item </ion-label>
+      <div>
+        <dx-lookup #simpleLookup [items]="listofItems" [searchExpr]="['id','name','price', 'picture']" valueExpr="id"
+          [displayExpr]="getDisplayExpr" placeholder="Select Items" formControlName="item" itemTemplate="listofItems"
+          (onValueChanged)="valueChanged($event)">
+          <dxo-drop-down-options title="Select Item"></dxo-drop-down-options>
+          <div *dxTemplate="let item of 'listofItems'">
+            <div class="custom-item">
+              <img src="{{item.picture}}" />
+              <div style=" white-space: nowrap;overflow: hidden; text-overflow: ellipsis;">
+                {{item.name }} {{item.price }}</div>
+            </div>
+          </div>
+          <dxo-drop-down-options [showTitle]="false">
+            <dxi-toolbar-item widget="dxButton" location="left" toolbar="bottom" [options]="{
+                            text: 'Add Item',
+                                  onClick: addItem,
+                                  elementAttr: { id: 'cancelButton1' }
+                          
+                          }">
+            </dxi-toolbar-item>
+            <dxi-toolbar-item widget="dxButton" location="center" toolbar="bottom" [options]="{
+                          text: 'Cancel',
+                                onClick: Cancel,
+                                elementAttr: { id: 'cancelButton1' }
+                        
+                        }">
+            </dxi-toolbar-item>
+          </dxo-drop-down-options>
+        </dx-lookup>
+        <small class="form-text text-muted" *ngIf="!regform.get('item').valid && 
+                    (regform.get('item').dirty ||regform.get('item').touched) "> This field is required!</small>
+      </div>
+    </ion-item>
+    <ion-item *ngIf="isAddItems">
+      <ion-button (click)="addItems()">Add Items By product</ion-button>
+    </ion-item>
+  </form>
+  <ion-list *ngIf="listOfItemsData" >
+    <dx-button id="gridDeleteSelected" text="Delete Selected Records" [height]="34"
+      [disabled]="!selectedItemKeys.length" (onClick)="deleteRecords()">
+    </dx-button>
+    <dx-data-grid [dataSource]="ListOfItems" [allowColumnReordering]="true" [columnAutoWidth]="true"
+      [showBorders]="true" [rowAlternationEnabled]="true" [showRowLines]="true"
+      (onSelectionChanged)="selectionChangedRow($event)"
+      (onRowUpdating)="selectionChanged($event)">
+      <dxo-editing mode="cell" [allowUpdating]="true">
+      </dxo-editing>
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxi-column dataField="name" [fixed]="true" [allowEditing]="true"></dxi-column>
+      <dxi-column dataField="discrption" [allowEditing]="true"></dxi-column>
+      <dxi-column dataField="NewQuantity" [allowEditing]="true"></dxi-column>
+      <dxi-column dataField="OldQuantity" [allowEditing]="true"></dxi-column>
+      <dxi-column dataField="Difference" [allowEditing]="true"></dxi-column>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid>
+  </ion-list>
+  
+  <ion-item>
+    <ion-button id="add items" (click)="AddStock()" [disabled]="!isenabled"> 
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+    Add stock</ion-button>
+  </ion-item>
+</ion-content>

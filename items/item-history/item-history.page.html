@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-icon style="font-size: 35px;
+      margin-left: 13px;"name="arrow-back-outline" (click)="closeItemHistory()"></ion-icon>
+    </ion-buttons>
+    <ion-title> Item History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Item Name</ion-label>
+    <ion-label>{{this.data.name}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Transation Type</ion-label>
+    <ion-select interface="popover" (ionChange)="TransactionType($event)">
+      <ion-select-option
+        *ngFor="let item of ListoftranscationType"
+        [value]="item.name"
+        >{{item.name}}</ion-select-option
+      >
+    </ion-select>
+    <ion-label>Store</ion-label>
+    <ion-select interface="popover" (ionChange)="Store($event)">
+      <ion-select-option *ngFor="let item of listOfStore" [value]="item.Id"
+        >{{item.name}}</ion-select-option
+      >
+    </ion-select>
+  </ion-item>
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="listOfVoucherTransaction"
+    [allowColumnReordering]="true"
+    [columnAutoWidth]="true"
+    [showBorders]="true"
+    [showRowLines]="true"
+    [rowAlternationEnabled]="true"
+    (onRowDblClick)="detailItemTransation($event)"
+   [selectedRowKeys]="[]">
+   <dxo-selection mode="single"></dxo-selection>
+   <dxi-column dataField="Transaction_type"></dxi-column>
+    <dxi-column dataField="Order_Number"></dxi-column>
+    <dxi-column dataField="Date"></dxi-column>
+    <dxi-column dataField="Store"></dxi-column>
+    <dxi-column dataField="Qty_Before"></dxi-column>
+    <dxi-column dataField="Quantity"></dxi-column>
+    <dxi-column dataField="After_Qty"></dxi-column>
+
+    <dxo-paging [pageSize]="10"></dxo-paging>
+  </dx-data-grid>
+</ion-content>

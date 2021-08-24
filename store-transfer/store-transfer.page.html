@@ -1,0 +1,123 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" >
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Store Transfer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="regform">
+    <ion-item lines="full">
+      <ion-label>From Store</ion-label>
+      <div>
+        <dx-lookup [items]="listOfLookup" [searchExpr]="['name']" valueExpr="id" [displayExpr]="getDisplayExpr"
+          placeholder="Select Location" formControlName="FromLocation" itemTemplate="listOfLookup">
+          <dxo-drop-down-options title="Select Location"></dxo-drop-down-options>
+          <div *dxTemplate="let item of 'listOfLookup'">
+            <div class="custom-item">
+              <div>{{item.name}} </div>
+            </div>
+          </div>
+        </dx-lookup>
+        <small class="form-text text-muted" *ngIf="!regform.get('FromLocation').valid && 
+        regform.get('FromLocation').touched "> This field is required!</small>
+      </div>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label>To Store</ion-label>
+      <div>
+        <dx-lookup [items]="listOfLookup" [searchExpr]="['name']" valueExpr="id" [displayExpr]="getDisplayExpr"
+          placeholder="Select Location" formControlName="ToLocation" itemTemplate="listOfLookup">
+          <dxo-drop-down-options title="Select Location"></dxo-drop-down-options>
+          <div *dxTemplate="let item of 'listOfLookup'">
+            <div class="custom-item">
+              <div>{{item.name}} </div>
+            </div>
+          </div>
+        </dx-lookup>
+        <small class="form-text text-muted" *ngIf="!regform.get('ToLocation').valid && 
+        regform.get('ToLocation').touched "> This field is required!</small>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-label>Transfer No</ion-label>
+      <ion-input formControlName="transferNo" [(ngModel)]="this.storetransferNo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label> Date:</ion-label>
+      <ion-datetime displayFormat="MMM DD, YYYY HH:mm:ss"  placeholder="enter start date" formControlName="date" [min]="minDate" [max]="maxDate" [(ngModel)]="currentDate"></ion-datetime>
+    </ion-item>
+    <ion-item style="height: 68px;" lines="full">
+      <ion-label>Add Item </ion-label>
+      <div>
+        <dx-lookup #simpleLookup [items]="listofItems" [searchExpr]="['id','name','price', 'picture']" valueExpr="id"
+          [displayExpr]="getDisplayExpr" placeholder="Select Items" formControlName="item" itemTemplate="listofItems"
+          (onValueChanged)="valueChanged($event)">
+          <dxo-drop-down-options title="Select Item"></dxo-drop-down-options>
+          <div *dxTemplate="let item of 'listofItems'">
+            <div class="custom-item">
+              <img src="{{item.picture}}" />
+              <div style=" white-space: nowrap;overflow: hidden; text-overflow: ellipsis;">
+                {{item.name }}</div>
+                <div style=" white-space: nowrap;overflow: hidden; text-overflow: ellipsis;">
+                 {{item.AmaricName}}</div>
+            </div>
+          </div>
+          <dxo-drop-down-options [showTitle]="false">
+            <dxi-toolbar-item widget="dxButton" location="left" toolbar="bottom" [options]="{
+                            text: 'Add Item',
+                                  onClick: addItem,
+                                  elementAttr: { id: 'cancelButton1' }
+                          
+                          }">
+            </dxi-toolbar-item>
+            <dxi-toolbar-item widget="dxButton" location="center" toolbar="bottom" [options]="{
+                          text: 'Cancel',
+                                onClick: Cancel,
+                                elementAttr: { id: 'cancelButton1' }
+                        
+                        }">
+            </dxi-toolbar-item>
+          </dxo-drop-down-options>
+        </dx-lookup>
+        <small class="form-text text-muted" *ngIf="!regform.get('item').valid && 
+                    (regform.get('item').dirty ||regform.get('item').touched) "> This field is required!</small>
+      </div>
+    </ion-item>
+   
+    <div style="text-align: center; margin: auto">
+      <ion-button id="add items" (click)="addItems()">
+        <ion-icon slot="start" name="add-circle-outline"></ion-icon>Add Items By product
+        </ion-button>
+    </div>
+   </form>
+    <ion-list >
+      <dx-button id="gridDeleteSelected" text="Delete Selected Records" [height]="34"
+        [disabled]="!selectedItemKeys.length" (onClick)="deleteRecords()">
+      </dx-button> 
+      <dx-data-grid [dataSource]="ListOfItems" [allowColumnReordering]="true" [columnAutoWidth]="true"
+        [showBorders]="true" [rowAlternationEnabled]="true" [showRowLines]="true"
+        (onSelectionChanged)="selectionChangedRow($event)"
+        (onRowUpdating)="selectionChanged($event)">
+        <dxo-editing mode="cell" [allowUpdating]="true">
+        </dxo-editing>
+        <dxo-selection mode="multiple"></dxo-selection>
+        <dxi-column dataField="name" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="AmaricName" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="quantity" [allowEditing]="true"></dxi-column>
+        <dxi-column dataField="From_Location" [allowEditing]="true"></dxi-column>
+        <dxi-column dataField="To_Location" [allowEditing]="false"></dxi-column>
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+      </dx-data-grid>
+    </ion-list>
+    <ion-list lines="none">
+      <ion-item slot="bottom">
+        <ion-button  expand="block" id="add items" (click)="save()" > 
+          <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+         Save</ion-button>
+      </ion-item>
+    </ion-list>
+</ion-content>

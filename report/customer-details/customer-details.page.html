@@ -1,0 +1,35 @@
+<div>
+  <dx-button id="exportButton"
+  icon="exportpdf"
+  text="Export to PDF"
+  (onClick)="exportGrid($event)">
+</dx-button>
+  <dx-data-grid
+  id="gridContainer"
+  [dataSource]="listOfCustomer"
+   [showRowLines]="true"
+  [showBorders]="true"
+  [remoteOperations]="true"
+  [columnAutoWidth]="true"
+  [showBorders]="true" 
+  [showRowLines]="true"
+  [rowAlternationEnabled]="true"> 
+  <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-filter-panel [visible]="true"></dxo-filter-panel> 
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-column-chooser #columnChooser
+          [enabled]="true"
+          [allowSearch]="allowSearch"
+          mode="select">
+      </dxo-column-chooser>  
+      <dxi-column caption="fullname"
+      [fixed]="true" dataField="fullname" ></dxi-column>
+      <dxi-column dataField="phonenumber" ></dxi-column>
+      <dxi-column dataField="location" ></dxi-column>
+      <dxi-column dataField="balance" ></dxi-column>
+      <dxi-column dataField="address" ></dxi-column>
+</dx-data-grid>
+</div>
+
+ 
+

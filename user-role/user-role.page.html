@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>User Role</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="regform">
+    <ion-list>
+      <ion-item>
+        <ion-label>User Name </ion-label>
+        <ion-select name="userId" formControlName="userId" interface="popover" (ionChange)="selectedEv($event)">
+          <ion-select-option *ngFor="let code of listOfUser" value="{{code?.id}}">
+            {{code?.username}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div class="widget-container">
+        <dx-list #list [dataSource]="listOfFunctinality" [height]="400" displayExpr="compName"
+          [selectionMode]="selectionModeValue" [selectAllMode]="selectAllModeVlaue" 
+          [showSelectionControls]="true" [selectedItemKeys]="arr_names"
+          (onSelectionChanged)="onSelectionChanged($event)"
+          (onSelectAllValueChanged)="onSelectAllValueChanged($event)">
+        </dx-list>
+      </div>
+      <ion-button class="btn btn-secondary" expand="block" (click)="save()">
+        Save
+      </ion-button>
+    </ion-list>
+  </form>
+</ion-content>
